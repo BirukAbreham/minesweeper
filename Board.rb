@@ -20,7 +20,7 @@ class Board
         if char == "0"
           file_grid[idx] << Tile.new
         else
-          file_grid[idx] << Tile.new(true)
+          file_grid[idx] << Tile.new(0, true)
         end
       end
     end
