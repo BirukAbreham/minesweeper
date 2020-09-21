@@ -14,7 +14,6 @@ class Game
 
   def play
     until @board.won?
-      system("clear")
       @board.render
       input_pos = @player.prompt
 
@@ -35,14 +34,16 @@ class Game
         self.reveale_neighbors(ngs)
       end
     end
-    @board.reveale_mines
-    system("clear")
-    @board.render
-    self.won
+    if @board.won?
+      @board.reveale_mines
+      system("clear")
+      @board.render
+      self.won
+    end
   end
 
   def game_over
-    puts "--- Game over #{@player.name} stepped on a mine ---"
+    puts "--- Game over #{@player.name} stepped on a mine ---\n"
   end
 
   def won
@@ -62,6 +63,17 @@ class Game
         reveale_neighbors(ngs_rec)
       end
     end
+    nil
   end
 
+end
+
+if __FILE__ == $PROGRAM_NAME
+  filename = ARGV[0] || ""
+  test_game = Game.new("Player", filename)
+  puts
+  puts "".ljust(10, " ")+"MINESWEEPER"+"".ljust(10, " ")
+  print "\nSweep sweep the free positions without stepping on the mines (*)\n\n"
+  ARGV.shift
+  test_game.play
 end

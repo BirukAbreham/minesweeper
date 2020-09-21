@@ -116,7 +116,6 @@ class Board
     total = 0
     neighbors_list.each do |ng_pos|
       is_mine = self[ng_pos]
-      puts "position #{ng_pos}"
       if is_mine.mine
         total += 1
       end
