@@ -1,3 +1,4 @@
+require "colorize"
 require_relative "Tile"
 
 class Board
@@ -47,13 +48,19 @@ class Board
             print " *".ljust(3, " ")+"|"
           else
             if tile.count > 0
-              print " #{tile.count}".ljust(3, " ")+"|"
+              if tile.count >= 4
+                print " #{tile.count}".ljust(3, " ").colorize(:color => :red)+"|"
+              elsif tile.count <= 3 && tile.count >= 2
+                print " #{tile.count}".ljust(3, " ").colorize(:color => :yellow)+"|"
+              else
+                print " #{tile.count}".ljust(3, " ").colorize(:color => :blue)+"|"
+              end
             else
               print " _".ljust(3, " ")+"|"
             end
           end
         else
-          print " /".ljust(3, " ")+"|"
+          print " /".ljust(3, " ").colorize(:color => :green, :background => :black)+"|"
         end
       end
       puts
