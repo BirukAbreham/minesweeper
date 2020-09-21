@@ -13,5 +13,11 @@ class Board
 
   def [](position)
   end
+  
+  def neighbors(tile_pos)
+  end
 
+  def neighbors_bomb_count(tile_pos)
+  end
+  
 end
