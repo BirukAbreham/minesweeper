@@ -37,17 +37,17 @@ class Board
       end
     end
     puts
-    puts "_"*39
-    puts
+    puts "-"*39
+    # puts
     @grid.each_with_index do |line, row|
       print "#{row}|".ljust(3, " ")
       line.each_with_index do |tile, idx|
         if tile.revealed?
           if tile.mine
-            print "*".ljust(3, " ")+"|"
+            print " *".ljust(3, " ")+"|"
           else
             if tile.count > 0
-              print " #{bomb_count}".ljust(3, " ")+"|"
+              print " #{tile.count}".ljust(3, " ")+"|"
             else
               print " _".ljust(3, " ")+"|"
             end
@@ -57,8 +57,8 @@ class Board
         end
       end
       puts
-      puts "_"*39
-      puts
+      puts "-"*39
+      # puts
     end
     puts
   end
@@ -69,6 +69,23 @@ class Board
 
   def [](position)
     @grid[position[0]][position[1]]
+  end
+
+  def won?
+    @grid.each do |row|
+      row.each do |tile|
+        return false if !tile.revealed? && !tile.mine
+      end
+    end
+    true
+  end
+
+  def reveale_mines
+    @grid.each do |row|
+      row.each do |tile|
+        tile.reveale if tile.mine
+      end
+    end
   end
   
   def neighbors(tile_pos)
@@ -82,14 +99,20 @@ class Board
     valid_neighbors_pos << [ tile_pos[0]+1, tile_pos[1]-1 ]
     valid_neighbors_pos << [ tile_pos[0]-1, tile_pos[1]+1 ]
 
-    valid_neighbors_pos.select { |pos| pos[0] >= 0 && pos[1] >= 0 }
+    valid_neighbors_pos.select do |pos| 
+      pos[0] >= 0 && pos[1] >= 0 && pos[0] < @grid.length && pos[1] < @grid.length
+    end
   end
 
   def neighbors_bomb_count(tile_pos)
     neighbors_list = self.neighbors(tile_pos)
     total = 0
     neighbors_list.each do |ng_pos|
-      total += 1 if self[ng_pos].mine
+      is_mine = self[ng_pos]
+      puts "position #{ng_pos}"
+      if is_mine.mine
+        total += 1
+      end
     end
     total
   end

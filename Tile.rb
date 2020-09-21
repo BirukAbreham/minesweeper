@@ -1,6 +1,7 @@
 class Tile
 
   attr_reader :mine, :count
+  attr_writer :count
 
   def initialize(count=0, bomb=false)
     @count=count
