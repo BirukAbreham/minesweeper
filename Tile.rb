@@ -1,6 +1,9 @@
 class Tile
 
-  def initialize(bomb=false)
+  attr_reader :mine, :count
+
+  def initialize(count=0, bomb=false)
+    @count=count
     @mine=bomb
     @bombed=false
     @flagged=false
